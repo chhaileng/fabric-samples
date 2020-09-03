@@ -98,20 +98,20 @@ async function main() {
         console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
-        const userExists = await wallet.get('appUser');
+        const userExists = await wallet.get('listenerUser');
         if (!userExists) {
-            console.log('An identity for the user "appUser" does not exist in the wallet');
+            console.log('An identity for the user "listenerUser" does not exist in the wallet');
             console.log('Run the enrollUser.js application before retrying');
             return;
         }
 
         // Parse the connection profile. This would be the path to the file downloaded
         // from the IBM Blockchain Platform operational console.
-        const ccpPath = path.resolve(__dirname, '..', 'test-network','organizations','peerOrganizations','org1.example.com', 'connection-org1.json');
+        const ccpPath = path.resolve(__dirname, 'files', 'connection-org1.json');
         const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccp, { wallet, identity: 'appUser', discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccp, { wallet, identity: 'listenerUser', discovery: { enabled: true, asLocalhost: false } });
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
@@ -156,6 +156,7 @@ async function processPendingBlocks(ProcessingMap) {
                 break;
             }
 
+            console.log("call block processing event")
             try {
                 await blockProcessing.processBlockEvent(channelid, processBlock, use_couchdb, nano)
             } catch (error) {

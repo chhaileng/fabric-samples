@@ -16,5 +16,14 @@ popd
 rm -rf wallet
 rm -rf addMarbles.json mychannel_marbles.log mychannel__lifecycle.log nextblock.txt
 
-docker stop offchaindb
-docker rm offchaindb
+pushd listener
+docker-compose down
+rm -rf wallet
+rm -rf mychannel_marbles.log mychannel__lifecycle.log nextblock.txt
+rm files/*
+popd
+
+docker network rm net_test
+
+#docker stop offchaindb
+#docker rm offchaindb
