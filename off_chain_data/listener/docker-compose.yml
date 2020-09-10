@@ -16,8 +16,9 @@ services:
     networks:
       - net_test
 
-  offchainlistener:
+  block-listener:
     container_name: block-listener
+    image: block-listener:latest
     restart: always
     build: .
     networks:
