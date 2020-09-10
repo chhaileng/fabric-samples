@@ -20,7 +20,7 @@ pushd listener
 docker-compose down
 rm -rf wallet
 rm -rf mychannel_marbles.log mychannel__lifecycle.log nextblock.txt
-rm files/*
+rm connection-profile/*
 popd
 
 docker network rm net_test

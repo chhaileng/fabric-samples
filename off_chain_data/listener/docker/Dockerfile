@@ -11,9 +11,14 @@ RUN apk add --no-cache --virtual .gyp \
     && npm install \
     && apk del .gyp
 
-#RUN npm install
+RUN mkdir wallet
+RUN mkdir connection-profile
 
-COPY . .
+COPY blockEventListener.js .
+COPY blockProcessing.js .
+COPY config.json .
+COPY couchdbutil.js .
+
 
 RUN echo 2 > nextblock.txt
 

@@ -107,7 +107,7 @@ async function main() {
 
         // Parse the connection profile. This would be the path to the file downloaded
         // from the IBM Blockchain Platform operational console.
-        const ccpPath = path.resolve(__dirname, 'files', 'connection-org1.json');
+        const ccpPath = path.resolve(__dirname, 'connection-profile', 'connection-org1.json');
         const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();

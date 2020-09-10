@@ -26,26 +26,29 @@ pushd ../test-network
 ./network.sh up createChannel -ca -s couchdb
 
 # COPY CPP to my working dir
-cp organizations/peerOrganizations/org1.example.com/connection-org1.json ../off_chain_data/listener/files/
-cp organizations/peerOrganizations/org2.example.com/connection-org2.json ../off_chain_data/listener/files/
-cp organizations/peerOrganizations/org1.example.com/connection-org1-for-docker.json ../off_chain_data/listener/files/
-cp organizations/peerOrganizations/org2.example.com/connection-org2-for-docker.json ../off_chain_data/listener/files/
+cp organizations/peerOrganizations/org1.example.com/connection-org1.json ../off_chain_data/listener/connection-profile/
+cp organizations/peerOrganizations/org2.example.com/connection-org2.json ../off_chain_data/listener/connection-profile/
+cp organizations/peerOrganizations/org1.example.com/connection-org1-for-docker.json ../off_chain_data/listener/connection-profile/
+cp organizations/peerOrganizations/org2.example.com/connection-org2-for-docker.json ../off_chain_data/listener/connection-profile/
 
 #echo Starting offchain database
 #docker run --publish 5990:5984 --detach -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=adminpw --name offchaindb couchdb
 
 popd
 pushd listener
+if [ ! -d node_modules ]; then
+  npm install 
+fi
 node enrollAdmin.js
 node registerUser.js
 
-mv files/connection-org1.json files/connection-org1-for-localhost.json
-mv files/connection-org2.json files/connection-org2-for-localhost.json
+mv connection-profile/connection-org1.json connection-profile/connection-org1-for-localhost.json
+mv connection-profile/connection-org2.json connection-profile/connection-org2-for-localhost.json
 
-mv files/connection-org1-for-docker.json files/connection-org1.json
-mv files/connection-org2-for-docker.json files/connection-org2.json
+mv connection-profile/connection-org1-for-docker.json connection-profile/connection-org1.json
+mv connection-profile/connection-org2-for-docker.json connection-profile/connection-org2.json
 
-docker-compose up -d --build
+docker-compose up -d
 popd
 pushd ../test-network
 

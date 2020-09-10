@@ -18,9 +18,11 @@ services:
 
   block-listener:
     container_name: block-listener
-    image: block-listener:latest
+    image: chhaileng/block-listener:latest
     restart: always
-    build: .
+    volumes:
+      - ./wallet:/usr/src/app/wallet
+      - ./connection-profile:/usr/src/app/connection-profile
     networks:
       - net_test
     depends_on:
